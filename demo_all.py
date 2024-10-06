@@ -1,13 +1,30 @@
 import numpy as np
-import joblib
 import streamlit as st
 
-# Load the trained models and encoders
-model_avg = joblib.load('salary_prediction_avg_model.pkl')
-model_min = joblib.load('salary_prediction_min_model.pkl')
-model_max = joblib.load('salary_prediction_max_model.pkl')
-le_level = joblib.load('level_encoder.pkl')
-le_role = joblib.load('role_encoder.pkl')
+import pickle
+
+# Load the trained models and encoders using pickle
+try:
+    with open('salary_prediction_avg_model.pkl', 'rb') as f:
+        model_avg = pickle.load(f)
+
+    with open('salary_prediction_min_model.pkl', 'rb') as f:
+        model_min = pickle.load(f)
+
+    with open('salary_prediction_max_model.pkl', 'rb') as f:
+        model_max = pickle.load(f)
+
+    with open('level_encoder.pkl', 'rb') as f:
+        le_level = pickle.load(f)
+
+    with open('role_encoder.pkl', 'rb') as f:
+        le_role = pickle.load(f)
+
+    print("All models and encoders have been successfully loaded.")
+except FileNotFoundError as e:
+    print(f"Error: {e}. Please ensure all pickle files are in the current directory.")
+except Exception as e:
+    print(f"An error occurred while loading the files: {e}")
 
 # Ordered levels
 ordered_levels = ['Associate', 'Junior', 'Mid', 'Senior', 'Lead', 'Manager']
